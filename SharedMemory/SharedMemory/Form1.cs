@@ -19,9 +19,22 @@ namespace SharedMemory
         {
             InitializeComponent();
 
-             long tamanho = 9 * sizeof(char);
 
-             posicoes = MemoryMappedFile.CreateOrOpen("sharedMemory", tamanho);
+             
+        }
+
+        private void inicializarMemoria()
+        {
+
+            long tamanho = 9 * sizeof(char);
+            posicoes = MemoryMappedFile.CreateOrOpen("sharedMemory", tamanho);
+        }
+
+        private void setValorPosicao(Button btn, int posicao)
+        {
+            char valor = validaValor(getValor(posicao));
+            btn.Text = valor.ToString();
+            setValor(posicao, valor);
         }
 
         private char validaValor(char valor)
@@ -34,77 +47,75 @@ namespace SharedMemory
                 return '\0';
         }
 
-        private char getValor(int linha, int coluna)
+        private char getValor(int coluna)
         {
             var access = posicoes.CreateViewAccessor();
 
-            int posicao= linha * coluna * sizeof(char);
+            int posicao=  coluna * sizeof(char);
 
             return access.ReadChar(posicao);
+        }
 
+        private void setValor(int coluna,char valor)
+        {
+            var access = posicoes.CreateViewAccessor();
+
+            int posicao = coluna * sizeof(char);
+
+             access.Write<char>(posicao,ref valor);
         }
 
         private void btn1_Click(object sender, EventArgs e)
         {
-            var access = posicoes.CreateViewAccessor();
 
-            int linha = 0;
-            int coluna = 0;
-            int posicao = linha * coluna * sizeof(char);
-
-            access.ReadChar(posicao);
-
-            posicoes[0, 0] = validaValor(getValor(0,0));
-            btn1.Text = posicoes[0, 0].ToString();
+            setValorPosicao(btn1,1);
+           
 
         }
 
         private void btn2_Click(object sender, EventArgs e)
         {
-            posicoes[0, 1] = validaValor(getValor(0, 1));
-            btn2.Text = posicoes[0, 1].ToString();
+            setValorPosicao(btn2, 2);
         }
 
         private void btn3_Click(object sender, EventArgs e)
         {
-            posicoes[0, 2] = validaValor(getValor(0, 2));
-            btn3.Text = posicoes[0, 2].ToString();
+            setValorPosicao(btn3, 3);
         }
 
         private void btn4_Click(object sender, EventArgs e)
         {
-            posicoes[1, 0] = validaValor(getValor(1, 0));
-            btn4.Text = posicoes[1, 0].ToString();
+            setValorPosicao(btn4, 4);
         }
 
         private void btn5_Click(object sender, EventArgs e)
         {
-            posicoes[1, 1] = validaValor(getValor(1, 1));
-            btn5.Text = posicoes[1, 1].ToString();
+            setValorPosicao(btn5, 5);
         }
 
         private void btn6_Click(object sender, EventArgs e)
         {
-            posicoes[1, 2] = validaValor(getValor(1, 2));
-            btn6.Text = posicoes[1, 2].ToString();
+            setValorPosicao(btn6, 6);
         }
 
         private void btn7_Click(object sender, EventArgs e)
         {
-            posicoes[2, 0] = validaValor(getValor(2, 0));
-            btn7.Text = posicoes[2, 0].ToString();
+            setValorPosicao(btn7, 7);
         }
 
         private void btn8_Click(object sender, EventArgs e)
         {
-            posicoes[2, 1] = validaValor(getValor(2, 1));
-            btn8.Text = posicoes[2,1].ToString();
+            setValorPosicao(btn8, 8);
         }
 
         private void btn9_Click(object sender, EventArgs e)
         {
-            posicoes[2, 2] = validaValor(getValor(2, 2));
-            btn9.Text = posicoes[2, 2].ToString();
+            setValorPosicao(btn9, 9);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            inicializarMemoria();
         }
     }
 }
