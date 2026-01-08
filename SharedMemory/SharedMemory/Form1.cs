@@ -14,6 +14,7 @@ namespace SharedMemory
     public partial class Form1 : Form
     {
         MemoryMappedFile posicoes;
+        private string tipo;
 
         public Form1()
         {
@@ -39,12 +40,12 @@ namespace SharedMemory
 
         private char validaValor(char valor)
         {
-            if (valor== '\0')
+            if (valor== '\0' && tipo=="LetraX")
                 return 'X';
-            else if (valor == 'X')
+            else if (valor == '\0' && tipo=="Circulo")
                 return 'O';
             else
-                return '\0';
+                return valor;
         }
 
         private char getValor(int coluna)
@@ -68,54 +69,71 @@ namespace SharedMemory
         private void btn1_Click(object sender, EventArgs e)
         {
 
-            setValorPosicao(btn1,1);
+            setValorPosicao(btn1,0);
            
 
         }
 
         private void btn2_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn2, 2);
+            setValorPosicao(btn2, 1);
         }
 
         private void btn3_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn3, 3);
+            setValorPosicao(btn3, 2);
         }
 
         private void btn4_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn4, 4);
+            setValorPosicao(btn4, 3);
         }
 
         private void btn5_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn5, 5);
+            setValorPosicao(btn5, 4);
         }
 
         private void btn6_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn6, 6);
+            setValorPosicao(btn6, 5);
         }
 
         private void btn7_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn7, 7);
+            setValorPosicao(btn7, 6);
         }
 
         private void btn8_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn8, 8);
+            setValorPosicao(btn8, 7);
         }
 
         private void btn9_Click(object sender, EventArgs e)
         {
-            setValorPosicao(btn9, 9);
+            setValorPosicao(btn9, 8);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             inicializarMemoria();
+        }
+
+
+        private void chkCirculo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCirculo.Checked)
+            {
+                tipo = "Circulo";
+            }
+        }
+
+        private void chkLetraX_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkLetraX.Checked)
+            {
+                tipo = "LetraX";
+            }
         }
     }
 }

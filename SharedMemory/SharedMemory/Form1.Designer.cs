@@ -37,6 +37,8 @@
             this.btn7 = new System.Windows.Forms.Button();
             this.btn8 = new System.Windows.Forms.Button();
             this.btn9 = new System.Windows.Forms.Button();
+            this.chkCirculo = new System.Windows.Forms.CheckBox();
+            this.chkLetraX = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btn1
@@ -129,11 +131,35 @@
             this.btn9.UseVisualStyleBackColor = true;
             this.btn9.Click += new System.EventHandler(this.btn9_Click);
             // 
+            // chkCirculo
+            // 
+            this.chkCirculo.AutoSize = true;
+            this.chkCirculo.Location = new System.Drawing.Point(629, 427);
+            this.chkCirculo.Name = "chkCirculo";
+            this.chkCirculo.Size = new System.Drawing.Size(70, 20);
+            this.chkCirculo.TabIndex = 9;
+            this.chkCirculo.Text = "Círculo";
+            this.chkCirculo.UseVisualStyleBackColor = true;
+            this.chkCirculo.CheckedChanged += new System.EventHandler(this.chkCirculo_CheckedChanged);
+            // 
+            // chkLetraX
+            // 
+            this.chkLetraX.AutoSize = true;
+            this.chkLetraX.Location = new System.Drawing.Point(629, 463);
+            this.chkLetraX.Name = "chkLetraX";
+            this.chkLetraX.Size = new System.Drawing.Size(70, 20);
+            this.chkLetraX.TabIndex = 10;
+            this.chkLetraX.Text = "Letra X";
+            this.chkLetraX.UseVisualStyleBackColor = true;
+            this.chkLetraX.CheckedChanged += new System.EventHandler(this.chkLetraX_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 532);
+            this.Controls.Add(this.chkLetraX);
+            this.Controls.Add(this.chkCirculo);
             this.Controls.Add(this.btn9);
             this.Controls.Add(this.btn8);
             this.Controls.Add(this.btn7);
@@ -147,6 +173,7 @@
             this.Text = "Jogo da Velha";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -161,6 +188,8 @@
         private System.Windows.Forms.Button btn7;
         private System.Windows.Forms.Button btn8;
         private System.Windows.Forms.Button btn9;
+        private System.Windows.Forms.CheckBox chkCirculo;
+        private System.Windows.Forms.CheckBox chkLetraX;
     }
 }
 
