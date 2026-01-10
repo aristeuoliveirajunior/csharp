@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.MemoryMappedFiles;
 
 namespace SharedMemory
 {
@@ -20,8 +22,55 @@ namespace SharedMemory
         {
             InitializeComponent();
 
+            funcaoConferenciaMemoria();
 
-             
+        }
+        
+        private void funcaoThreadConfereMemoria()
+        {
+            if(InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    if (posicoes != null)
+                    {
+
+                        btn1.Text = getValor(0).ToString();
+                        btn2.Text = getValor(1).ToString();
+                        btn3.Text = getValor(2).ToString();
+
+                        btn4.Text = getValor(3).ToString();
+                        btn5.Text = getValor(4).ToString();
+                        btn6.Text = getValor(5).ToString();
+
+                        btn7.Text = getValor(6).ToString();
+                        btn8.Text = getValor(7).ToString();
+                        btn9.Text = getValor(8).ToString();
+
+                    }
+
+                }));
+
+                return;
+            }
+           
+        }
+
+        private void funcaoConferenciaMemoria()
+        {
+
+
+            Thread th = new Thread(() =>
+            {
+                while (true)
+                {
+                    funcaoThreadConfereMemoria();
+                    Thread.Sleep(1000);
+                }
+            });
+
+            th.IsBackground = true;
+            th.Start();
         }
 
         private void inicializarMemoria()
