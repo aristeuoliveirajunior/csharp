@@ -2,7 +2,6 @@ C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\bin\Debug\Sha
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\bin\Debug\SharedMemory.exe
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\bin\Debug\SharedMemory.pdb
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.csproj.AssemblyReference.cache
-C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.exe.config
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.Form1.resources
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.Properties.Resources.resources
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.csproj.GenerateResource.cache

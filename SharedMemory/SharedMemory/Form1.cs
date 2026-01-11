@@ -25,6 +25,73 @@ namespace SharedMemory
             funcaoConferenciaMemoria();
 
         }
+
+        private bool validaVitoria()
+        {
+            int contMarcacoes = 0;
+            if (getValor(0).ToString() == tipo) contMarcacoes++;
+            if (getValor(1).ToString() == tipo) contMarcacoes++;
+            if (getValor(2).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+            contMarcacoes = 0;
+            if (getValor(3).ToString() == tipo) contMarcacoes++;
+            if (getValor(4).ToString() == tipo) contMarcacoes++;
+            if (getValor(5).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(6).ToString() == tipo) contMarcacoes++;
+            if (getValor(7).ToString() == tipo) contMarcacoes++;
+            if (getValor(8).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(0).ToString() == tipo) contMarcacoes++;
+            if (getValor(3).ToString() == tipo) contMarcacoes++;
+            if (getValor(6).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(1).ToString() == tipo) contMarcacoes++;
+            if (getValor(4).ToString() == tipo) contMarcacoes++;
+            if (getValor(7).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(2).ToString() == tipo) contMarcacoes++;
+            if (getValor(5).ToString() == tipo) contMarcacoes++;
+            if (getValor(8).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(0).ToString() == tipo) contMarcacoes++;
+            if (getValor(4).ToString() == tipo) contMarcacoes++;
+            if (getValor(8).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+
+            contMarcacoes = 0;
+            if (getValor(2).ToString() == tipo) contMarcacoes++;
+            if (getValor(6).ToString() == tipo) contMarcacoes++;
+            if (getValor(6).ToString() == tipo) contMarcacoes++;
+
+            if (contMarcacoes == 3) return true;
+
+            return false;
+        }
         
         private void funcaoThreadConfereMemoria()
         {
@@ -89,9 +156,9 @@ namespace SharedMemory
 
         private char validaValor(char valor)
         {
-            if (valor== '\0' && tipo=="LetraX")
+            if (valor== '\0' && tipo=="X")
                 return 'X';
-            else if (valor == '\0' && tipo=="Circulo")
+            else if (valor == '\0' && tipo=="O")
                 return 'O';
             else
                 return valor;
@@ -119,48 +186,73 @@ namespace SharedMemory
         {
 
             setValorPosicao(btn1,0);
-           
+            bool result=validaVitoria();
 
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn2_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn2, 1);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn3_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn3, 2);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn4_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn4, 3);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn5_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn5, 4);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn6_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn6, 5);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn7_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn7, 6);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn8_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn8, 7);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void btn9_Click(object sender, EventArgs e)
         {
             setValorPosicao(btn9, 8);
+            bool result = validaVitoria();
+
+            if (result) MessageBox.Show("Parabéns você venceu!");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -173,7 +265,7 @@ namespace SharedMemory
         {
             if (chkCirculo.Checked)
             {
-                tipo = "Circulo";
+                tipo = "O";
             }
         }
 
@@ -181,7 +273,7 @@ namespace SharedMemory
         {
             if(chkLetraX.Checked)
             {
-                tipo = "LetraX";
+                tipo = "X";
             }
         }
     }
