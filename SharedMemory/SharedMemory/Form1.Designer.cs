@@ -39,6 +39,7 @@
             this.btn9 = new System.Windows.Forms.Button();
             this.chkCirculo = new System.Windows.Forms.CheckBox();
             this.chkLetraX = new System.Windows.Forms.CheckBox();
+            this.bntReiniciar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn1
@@ -153,11 +154,22 @@
             this.chkLetraX.UseVisualStyleBackColor = true;
             this.chkLetraX.CheckedChanged += new System.EventHandler(this.chkLetraX_CheckedChanged);
             // 
+            // bntReiniciar
+            // 
+            this.bntReiniciar.Location = new System.Drawing.Point(198, 404);
+            this.bntReiniciar.Name = "bntReiniciar";
+            this.bntReiniciar.Size = new System.Drawing.Size(162, 64);
+            this.bntReiniciar.TabIndex = 11;
+            this.bntReiniciar.Text = "Reiniciar";
+            this.bntReiniciar.UseVisualStyleBackColor = true;
+            this.bntReiniciar.Click += new System.EventHandler(this.bntReiniciar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 532);
+            this.Controls.Add(this.bntReiniciar);
             this.Controls.Add(this.chkLetraX);
             this.Controls.Add(this.chkCirculo);
             this.Controls.Add(this.btn9);
@@ -190,6 +202,7 @@
         private System.Windows.Forms.Button btn9;
         private System.Windows.Forms.CheckBox chkCirculo;
         private System.Windows.Forms.CheckBox chkLetraX;
+        private System.Windows.Forms.Button bntReiniciar;
     }
 }
 

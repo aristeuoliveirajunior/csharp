@@ -17,13 +17,32 @@ namespace SharedMemory
     {
         MemoryMappedFile posicoes;
         private string tipo;
+        MemoryMappedFile ultimaJogada;
 
         public Form1()
         {
             InitializeComponent();
 
+
             funcaoConferenciaMemoria();
 
+        }
+
+        private void setUltimaJogada(char valor)
+        {
+            ultimaJogada = MemoryMappedFile.CreateOrOpen("sharedmemoryUltimaJogada", sizeof(char));
+            var access=ultimaJogada.CreateViewAccessor();
+            access.Write(0,valor);
+        }
+
+        private char getUltimaJogada()
+        {
+            ultimaJogada = MemoryMappedFile.CreateOrOpen("sharedmemoryUltimaJogada", sizeof(char));
+            var access=ultimaJogada.CreateViewAccessor();
+            char v = '0';
+            access.Read(0, out v);
+
+            return v;
         }
 
         private bool validaVitoria()
@@ -175,11 +194,25 @@ namespace SharedMemory
 
         private void setValor(int coluna,char valor)
         {
+            if(valor== '\0')
+            {
+                MessageBox.Show("Você deve selecionar o seu símbolo para jogar");
+                return;
+            }
+            if (getUltimaJogada() == valor)
+            {
+                MessageBox.Show("Você já jogou, aguarde a jogada do colega!");
+                return;
+            }
+               
+
             var access = posicoes.CreateViewAccessor();
 
             int posicao = coluna * sizeof(char);
 
-             access.Write<char>(posicao,ref valor);
+            access.Write<char>(posicao,ref valor);
+
+            setUltimaJogada(valor);
         }
 
         private void btn1_Click(object sender, EventArgs e)
@@ -263,6 +296,13 @@ namespace SharedMemory
 
         private void chkCirculo_CheckedChanged(object sender, EventArgs e)
         {
+            if(!string.IsNullOrEmpty(tipo))
+            {
+                MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
+                chkCirculo.Checked = false;
+                return;
+            }
+
             if (chkCirculo.Checked)
             {
                 tipo = "O";
@@ -271,10 +311,24 @@ namespace SharedMemory
 
         private void chkLetraX_CheckedChanged(object sender, EventArgs e)
         {
-            if(chkLetraX.Checked)
+            if (!string.IsNullOrEmpty(tipo))
+            {
+                MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
+                chkLetraX.Checked = false;
+                return;
+            }
+
+            if (chkLetraX.Checked)
             {
                 tipo = "X";
             }
+        }
+
+        private void bntReiniciar_Click(object sender, EventArgs e)
+        {
+            setUltimaJogada('0');
+            posicoes = MemoryMappedFile.CreateNew("sharedmemory", sizeof(char)*9);
+
         }
     }
 }
