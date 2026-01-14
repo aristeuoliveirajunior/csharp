@@ -194,6 +194,11 @@ namespace SharedMemory
 
         private void setValor(int coluna,char valor)
         {
+            if (getValor(coluna)=='X' || getValor(coluna)=='O')
+            {
+                MessageBox.Show("Esta posição já foi preenchida!");
+                return;
+            }
             if(valor== '\0')
             {
                 MessageBox.Show("Você deve selecionar o seu símbolo para jogar");
@@ -327,7 +332,17 @@ namespace SharedMemory
         private void bntReiniciar_Click(object sender, EventArgs e)
         {
             setUltimaJogada('0');
-            posicoes = MemoryMappedFile.CreateNew("sharedmemory", sizeof(char)*9);
+           
+            for (int cont=0;cont<=8;cont++)
+            {
+                var access = posicoes.CreateViewAccessor();
+
+                int posicao = cont * sizeof(char);
+
+                char valor = '\0';
+
+                access.Write<char>(posicao, ref valor);
+            }
 
         }
     }
