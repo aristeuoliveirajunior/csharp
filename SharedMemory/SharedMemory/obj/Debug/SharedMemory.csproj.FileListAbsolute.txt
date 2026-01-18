@@ -8,4 +8,3 @@ C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\Sha
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.csproj.CoreCompileInputs.cache
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.exe
 C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.pdb
-C:\notebookNovo\documentos\github\csharp\SharedMemory\SharedMemory\obj\Debug\SharedMemory.exe.config

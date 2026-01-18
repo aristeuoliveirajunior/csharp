@@ -18,6 +18,7 @@ namespace SharedMemory
         MemoryMappedFile posicoes;
         private string tipo;
         MemoryMappedFile ultimaJogada;
+        MemoryMappedFile tipoSelecionadoPrimeiro;
 
         public Form1()
         {
@@ -33,6 +34,29 @@ namespace SharedMemory
             ultimaJogada = MemoryMappedFile.CreateOrOpen("sharedmemoryUltimaJogada", sizeof(char));
             var access=ultimaJogada.CreateViewAccessor();
             access.Write(0,valor);
+        }
+
+        private bool setTipoSelecionadoPrimeiro(char tipo)
+        {
+            tipoSelecionadoPrimeiro = MemoryMappedFile.CreateOrOpen("sharedmemorytiposelecionadoprimeiro", sizeof(char));
+            var access = tipoSelecionadoPrimeiro.CreateViewAccessor();
+            char tipolido = 'c';
+            
+            access.Read<char>(0,out tipolido);
+
+            if (tipo == tipolido)
+            {
+                MessageBox.Show("Símbolo já selecionado!");
+                chkCirculo.Checked = false;
+                chkLetraX.Checked = false;
+
+                return false;
+            }
+               
+
+            access.Write<char>(0,ref tipo);
+
+            return true;
         }
 
         private char getUltimaJogada()
@@ -310,8 +334,12 @@ namespace SharedMemory
 
             if (chkCirculo.Checked)
             {
-                tipo = "O";
+                
+                if (setTipoSelecionadoPrimeiro('O'))
+                    tipo = "O";
             }
+               
+            
         }
 
         private void chkLetraX_CheckedChanged(object sender, EventArgs e)
@@ -322,11 +350,13 @@ namespace SharedMemory
                 chkLetraX.Checked = false;
                 return;
             }
-
+           
             if (chkLetraX.Checked)
             {
-                tipo = "X";
+                if (setTipoSelecionadoPrimeiro('X'))
+                    tipo = "X";
             }
+           
         }
 
         private void bntReiniciar_Click(object sender, EventArgs e)
