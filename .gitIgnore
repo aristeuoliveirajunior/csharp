@@ -1,3 +1,15 @@
 .vs
 /SharedMemory/SharedMemory/bin/Debug/
 /SharedMemory/SharedMemory/obj/Debug/
+/SharedMemory/SharedMemory/obj/Debug/SharedMemory.pdb
+/SharedMemory/SharedMemory/obj/Debug/SharedMemory.exe
+/SharedMemory/SharedMemory/bin/Debug/SharedMemory.pdb
+/SharedMemory/SharedMemory/bin/Debug/SharedMemory.exe
+
+/NamedPipes/bin/Debug/
+/NamedPipes/obj
+/NamedPipes/NamedPipes.csproj.user
+/NamedPipes/obj/Debug/SharedMemory.pdb
+/NamedPipes/obj/Debug/SharedMemory.exe
+/NamedPipes/bin/Debug/SharedMemory.pdb
+/NamedPipesy/bin/Debug/SharedMemory.exe
