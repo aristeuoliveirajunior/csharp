@@ -28,164 +28,218 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn1 = new System.Windows.Forms.Button();
-            this.btn2 = new System.Windows.Forms.Button();
-            this.btn3 = new System.Windows.Forms.Button();
-            this.btn4 = new System.Windows.Forms.Button();
-            this.btn5 = new System.Windows.Forms.Button();
-            this.btn6 = new System.Windows.Forms.Button();
-            this.btn7 = new System.Windows.Forms.Button();
-            this.btn8 = new System.Windows.Forms.Button();
-            this.btn9 = new System.Windows.Forms.Button();
-            this.chkCirculo = new System.Windows.Forms.CheckBox();
-            this.chkLetraX = new System.Windows.Forms.CheckBox();
-            this.bntReiniciar = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            btn1 = new Button();
+            btn2 = new Button();
+            btn3 = new Button();
+            btn4 = new Button();
+            btn5 = new Button();
+            btn6 = new Button();
+            btn7 = new Button();
+            btn8 = new Button();
+            btn9 = new Button();
+            chkCirculo = new CheckBox();
+            chkLetraX = new CheckBox();
+            bntReiniciar = new Button();
+            label1 = new Label();
+            textBox1 = new TextBox();
+            textBox2 = new TextBox();
+            label2 = new Label();
+            SuspendLayout();
             // 
             // btn1
             // 
-            this.btn1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.Location = new System.Drawing.Point(198, 98);
-            this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(177, 97);
-            this.btn1.TabIndex = 0;
-            this.btn1.UseVisualStyleBackColor = true;
-            this.btn1.Click += new System.EventHandler(this.btn1_Click);
+            btn1.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn1.Location = new Point(183, 39);
+            btn1.Margin = new Padding(3, 4, 3, 4);
+            btn1.Name = "btn1";
+            btn1.Size = new Size(177, 121);
+            btn1.TabIndex = 0;
+            btn1.UseVisualStyleBackColor = true;
+            btn1.Click += btn1_Click;
             // 
             // btn2
             // 
-            this.btn2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.Location = new System.Drawing.Point(372, 98);
-            this.btn2.Name = "btn2";
-            this.btn2.Size = new System.Drawing.Size(177, 97);
-            this.btn2.TabIndex = 1;
-            this.btn2.UseVisualStyleBackColor = true;
-            this.btn2.Click += new System.EventHandler(this.btn2_Click);
+            btn2.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn2.Location = new Point(357, 39);
+            btn2.Margin = new Padding(3, 4, 3, 4);
+            btn2.Name = "btn2";
+            btn2.Size = new Size(177, 121);
+            btn2.TabIndex = 1;
+            btn2.UseVisualStyleBackColor = true;
+            btn2.Click += btn2_Click;
             // 
             // btn3
             // 
-            this.btn3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.Location = new System.Drawing.Point(541, 98);
-            this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(177, 97);
-            this.btn3.TabIndex = 2;
-            this.btn3.UseVisualStyleBackColor = true;
-            this.btn3.Click += new System.EventHandler(this.btn3_Click);
+            btn3.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn3.Location = new Point(526, 39);
+            btn3.Margin = new Padding(3, 4, 3, 4);
+            btn3.Name = "btn3";
+            btn3.Size = new Size(177, 121);
+            btn3.TabIndex = 2;
+            btn3.UseVisualStyleBackColor = true;
+            btn3.Click += btn3_Click;
             // 
             // btn4
             // 
-            this.btn4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.Location = new System.Drawing.Point(198, 190);
-            this.btn4.Name = "btn4";
-            this.btn4.Size = new System.Drawing.Size(177, 97);
-            this.btn4.TabIndex = 3;
-            this.btn4.UseVisualStyleBackColor = true;
-            this.btn4.Click += new System.EventHandler(this.btn4_Click);
+            btn4.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn4.Location = new Point(183, 155);
+            btn4.Margin = new Padding(3, 4, 3, 4);
+            btn4.Name = "btn4";
+            btn4.Size = new Size(177, 121);
+            btn4.TabIndex = 3;
+            btn4.UseVisualStyleBackColor = true;
+            btn4.Click += btn4_Click;
             // 
             // btn5
             // 
-            this.btn5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.Location = new System.Drawing.Point(372, 190);
-            this.btn5.Name = "btn5";
-            this.btn5.Size = new System.Drawing.Size(177, 97);
-            this.btn5.TabIndex = 4;
-            this.btn5.UseVisualStyleBackColor = true;
-            this.btn5.Click += new System.EventHandler(this.btn5_Click);
+            btn5.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn5.Location = new Point(357, 155);
+            btn5.Margin = new Padding(3, 4, 3, 4);
+            btn5.Name = "btn5";
+            btn5.Size = new Size(177, 121);
+            btn5.TabIndex = 4;
+            btn5.UseVisualStyleBackColor = true;
+            btn5.Click += btn5_Click;
             // 
             // btn6
             // 
-            this.btn6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.Location = new System.Drawing.Point(541, 190);
-            this.btn6.Name = "btn6";
-            this.btn6.Size = new System.Drawing.Size(177, 97);
-            this.btn6.TabIndex = 5;
-            this.btn6.UseVisualStyleBackColor = true;
-            this.btn6.Click += new System.EventHandler(this.btn6_Click);
+            btn6.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn6.Location = new Point(526, 155);
+            btn6.Margin = new Padding(3, 4, 3, 4);
+            btn6.Name = "btn6";
+            btn6.Size = new Size(177, 121);
+            btn6.TabIndex = 5;
+            btn6.UseVisualStyleBackColor = true;
+            btn6.Click += btn6_Click;
             // 
             // btn7
             // 
-            this.btn7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.Location = new System.Drawing.Point(198, 283);
-            this.btn7.Name = "btn7";
-            this.btn7.Size = new System.Drawing.Size(177, 97);
-            this.btn7.TabIndex = 6;
-            this.btn7.UseVisualStyleBackColor = true;
-            this.btn7.Click += new System.EventHandler(this.btn7_Click);
+            btn7.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn7.Location = new Point(183, 271);
+            btn7.Margin = new Padding(3, 4, 3, 4);
+            btn7.Name = "btn7";
+            btn7.Size = new Size(177, 121);
+            btn7.TabIndex = 6;
+            btn7.UseVisualStyleBackColor = true;
+            btn7.Click += btn7_Click;
             // 
             // btn8
             // 
-            this.btn8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.Location = new System.Drawing.Point(372, 283);
-            this.btn8.Name = "btn8";
-            this.btn8.Size = new System.Drawing.Size(177, 97);
-            this.btn8.TabIndex = 7;
-            this.btn8.UseVisualStyleBackColor = true;
-            this.btn8.Click += new System.EventHandler(this.btn8_Click);
+            btn8.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn8.Location = new Point(357, 271);
+            btn8.Margin = new Padding(3, 4, 3, 4);
+            btn8.Name = "btn8";
+            btn8.Size = new Size(177, 121);
+            btn8.TabIndex = 7;
+            btn8.UseVisualStyleBackColor = true;
+            btn8.Click += btn8_Click;
             // 
             // btn9
             // 
-            this.btn9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.Location = new System.Drawing.Point(541, 283);
-            this.btn9.Name = "btn9";
-            this.btn9.Size = new System.Drawing.Size(177, 97);
-            this.btn9.TabIndex = 8;
-            this.btn9.UseVisualStyleBackColor = true;
-            this.btn9.Click += new System.EventHandler(this.btn9_Click);
+            btn9.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn9.Location = new Point(526, 271);
+            btn9.Margin = new Padding(3, 4, 3, 4);
+            btn9.Name = "btn9";
+            btn9.Size = new Size(177, 121);
+            btn9.TabIndex = 8;
+            btn9.UseVisualStyleBackColor = true;
+            btn9.Click += btn9_Click;
             // 
             // chkCirculo
             // 
-            this.chkCirculo.AutoSize = true;
-            this.chkCirculo.Location = new System.Drawing.Point(629, 427);
-            this.chkCirculo.Name = "chkCirculo";
-            this.chkCirculo.Size = new System.Drawing.Size(70, 20);
-            this.chkCirculo.TabIndex = 9;
-            this.chkCirculo.Text = "Círculo";
-            this.chkCirculo.UseVisualStyleBackColor = true;
-            this.chkCirculo.CheckedChanged += new System.EventHandler(this.chkCirculo_CheckedChanged);
+            chkCirculo.AutoSize = true;
+            chkCirculo.Location = new Point(617, 411);
+            chkCirculo.Margin = new Padding(3, 4, 3, 4);
+            chkCirculo.Name = "chkCirculo";
+            chkCirculo.Size = new Size(77, 24);
+            chkCirculo.TabIndex = 9;
+            chkCirculo.Text = "Círculo";
+            chkCirculo.UseVisualStyleBackColor = true;
+            chkCirculo.CheckedChanged += chkCirculo_CheckedChanged;
             // 
             // chkLetraX
             // 
-            this.chkLetraX.AutoSize = true;
-            this.chkLetraX.Location = new System.Drawing.Point(629, 463);
-            this.chkLetraX.Name = "chkLetraX";
-            this.chkLetraX.Size = new System.Drawing.Size(70, 20);
-            this.chkLetraX.TabIndex = 10;
-            this.chkLetraX.Text = "Letra X";
-            this.chkLetraX.UseVisualStyleBackColor = true;
-            this.chkLetraX.CheckedChanged += new System.EventHandler(this.chkLetraX_CheckedChanged);
+            chkLetraX.AutoSize = true;
+            chkLetraX.Location = new Point(617, 456);
+            chkLetraX.Margin = new Padding(3, 4, 3, 4);
+            chkLetraX.Name = "chkLetraX";
+            chkLetraX.Size = new Size(77, 24);
+            chkLetraX.TabIndex = 10;
+            chkLetraX.Text = "Letra X";
+            chkLetraX.UseVisualStyleBackColor = true;
+            chkLetraX.CheckedChanged += chkLetraX_CheckedChanged;
             // 
             // bntReiniciar
             // 
-            this.bntReiniciar.Location = new System.Drawing.Point(198, 404);
-            this.bntReiniciar.Name = "bntReiniciar";
-            this.bntReiniciar.Size = new System.Drawing.Size(162, 64);
-            this.bntReiniciar.TabIndex = 11;
-            this.bntReiniciar.Text = "Reiniciar";
-            this.bntReiniciar.UseVisualStyleBackColor = true;
-            this.bntReiniciar.Click += new System.EventHandler(this.bntReiniciar_Click);
+            bntReiniciar.Location = new Point(183, 400);
+            bntReiniciar.Margin = new Padding(3, 4, 3, 4);
+            bntReiniciar.Name = "bntReiniciar";
+            bntReiniciar.Size = new Size(162, 80);
+            bntReiniciar.TabIndex = 11;
+            bntReiniciar.Text = "Reiniciar";
+            bntReiniciar.UseVisualStyleBackColor = true;
+            bntReiniciar.Click += bntReiniciar_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(183, 501);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 20);
+            label1.TabIndex = 12;
+            label1.Text = "Meu IP";
+            label1.Click += label1_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(183, 524);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(125, 27);
+            textBox1.TabIndex = 13;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(183, 589);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(125, 27);
+            textBox2.TabIndex = 15;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(183, 566);
+            label2.Name = "label2";
+            label2.Size = new Size(96, 20);
+            label2.TabIndex = 14;
+            label2.Text = "Adversário IP";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(909, 532);
-            this.Controls.Add(this.bntReiniciar);
-            this.Controls.Add(this.chkLetraX);
-            this.Controls.Add(this.chkCirculo);
-            this.Controls.Add(this.btn9);
-            this.Controls.Add(this.btn8);
-            this.Controls.Add(this.btn7);
-            this.Controls.Add(this.btn6);
-            this.Controls.Add(this.btn5);
-            this.Controls.Add(this.btn4);
-            this.Controls.Add(this.btn3);
-            this.Controls.Add(this.btn2);
-            this.Controls.Add(this.btn1);
-            this.Name = "Form1";
-            this.Text = "Jogo da Velha";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(909, 665);
+            Controls.Add(textBox2);
+            Controls.Add(label2);
+            Controls.Add(textBox1);
+            Controls.Add(label1);
+            Controls.Add(bntReiniciar);
+            Controls.Add(chkLetraX);
+            Controls.Add(chkCirculo);
+            Controls.Add(btn9);
+            Controls.Add(btn8);
+            Controls.Add(btn7);
+            Controls.Add(btn6);
+            Controls.Add(btn5);
+            Controls.Add(btn4);
+            Controls.Add(btn3);
+            Controls.Add(btn2);
+            Controls.Add(btn1);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "Form1";
+            Text = "Jogo da Velha";
+            Load += Form1_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -203,6 +257,10 @@
         private System.Windows.Forms.CheckBox chkCirculo;
         private System.Windows.Forms.CheckBox chkLetraX;
         private System.Windows.Forms.Button bntReiniciar;
+        private Label label1;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private Label label2;
     }
 }
 

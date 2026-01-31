@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO.MemoryMappedFiles;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,6 +16,8 @@ namespace NamedPipes
 {
     public partial class Form1 : Form
     {
+
+
         MemoryMappedFile posicoes;
         private string tipo;
         MemoryMappedFile ultimaJogada;
@@ -48,8 +51,8 @@ namespace NamedPipes
         private void setUltimaJogada(char valor)
         {
             ultimaJogada = MemoryMappedFile.CreateOrOpen("sharedmemoryUltimaJogada", sizeof(char));
-            var access=ultimaJogada.CreateViewAccessor();
-            access.Write(0,valor);
+            var access = ultimaJogada.CreateViewAccessor();
+            access.Write(0, valor);
         }
 
         private bool setTipoSelecionadoPrimeiro(char tipo)
@@ -57,8 +60,8 @@ namespace NamedPipes
             tipoSelecionadoPrimeiro = MemoryMappedFile.CreateOrOpen("sharedmemorytiposelecionadoprimeiro", sizeof(char));
             var access = tipoSelecionadoPrimeiro.CreateViewAccessor();
             char tipolido = 'c';
-            
-            access.Read<char>(0,out tipolido);
+
+            access.Read<char>(0, out tipolido);
 
             if (tipo == tipolido)
             {
@@ -68,9 +71,9 @@ namespace NamedPipes
 
                 return false;
             }
-               
 
-            access.Write<char>(0,ref tipo);
+
+            access.Write<char>(0, ref tipo);
 
             return true;
         }
@@ -78,7 +81,7 @@ namespace NamedPipes
         private char getUltimaJogada()
         {
             ultimaJogada = MemoryMappedFile.CreateOrOpen("sharedmemoryUltimaJogada", sizeof(char));
-            var access=ultimaJogada.CreateViewAccessor();
+            var access = ultimaJogada.CreateViewAccessor();
             char v = '0';
             access.Read(0, out v);
 
@@ -94,7 +97,7 @@ namespace NamedPipes
             if (getValor(1).ToString() == tipo) contMarcacoes++;
             if (getValor(2).ToString() == tipo) contMarcacoes++;
 
-            if (contMarcacoes == 3) vitoria= true;
+            if (contMarcacoes == 3) vitoria = true;
 
             contMarcacoes = 0;
             if (getValor(3).ToString() == tipo) contMarcacoes++;
@@ -153,12 +156,12 @@ namespace NamedPipes
 
             return vitoria;
 
-            
+
         }
-        
+
         private void funcaoThreadConfereMemoria()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
@@ -183,7 +186,7 @@ namespace NamedPipes
 
                 return;
             }
-           
+
         }
 
         private void funcaoConferenciaMemoria()
@@ -219,9 +222,9 @@ namespace NamedPipes
 
         private char validaValor(char valor)
         {
-            if (valor== '\0' && tipo=="X")
+            if (valor == '\0' && tipo == "X")
                 return 'X';
-            else if (valor == '\0' && tipo=="O")
+            else if (valor == '\0' && tipo == "O")
                 return 'O';
             else
                 return valor;
@@ -231,19 +234,19 @@ namespace NamedPipes
         {
             var access = posicoes.CreateViewAccessor();
 
-            int posicao=  coluna * sizeof(char);
+            int posicao = coluna * sizeof(char);
 
             return access.ReadChar(posicao);
         }
 
-        private void setValor(int coluna,char valor)
+        private void setValor(int coluna, char valor)
         {
-            if (getValor(coluna)=='X' || getValor(coluna)=='O')
+            if (getValor(coluna) == 'X' || getValor(coluna) == 'O')
             {
                 MessageBox.Show("Esta posição já foi preenchida!");
                 return;
             }
-            if(valor== '\0')
+            if (valor == '\0')
             {
                 MessageBox.Show("Você deve selecionar o seu símbolo para jogar");
                 return;
@@ -253,13 +256,13 @@ namespace NamedPipes
                 MessageBox.Show("Você já jogou, aguarde a jogada do colega!");
                 return;
             }
-               
+
 
             var access = posicoes.CreateViewAccessor();
 
             int posicao = coluna * sizeof(char);
 
-            access.Write<char>(posicao,ref valor);
+            access.Write<char>(posicao, ref valor);
 
             setUltimaJogada(valor);
         }
@@ -267,8 +270,8 @@ namespace NamedPipes
         private void btn1_Click(object sender, EventArgs e)
         {
 
-            setValorPosicao(btn1,0);
-            bool result=validaVitoria();
+            setValorPosicao(btn1, 0);
+            bool result = validaVitoria();
 
             if (result)
             {
@@ -381,7 +384,7 @@ namespace NamedPipes
 
         private void chkCirculo_CheckedChanged(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(tipo))
+            if (!string.IsNullOrEmpty(tipo))
             {
                 MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
                 chkCirculo.Checked = false;
@@ -390,12 +393,12 @@ namespace NamedPipes
 
             if (chkCirculo.Checked)
             {
-                
+
                 if (setTipoSelecionadoPrimeiro('O'))
                     tipo = "O";
             }
-               
-            
+
+
         }
 
         private void chkLetraX_CheckedChanged(object sender, EventArgs e)
@@ -406,18 +409,23 @@ namespace NamedPipes
                 chkLetraX.Checked = false;
                 return;
             }
-           
+
             if (chkLetraX.Checked)
             {
                 if (setTipoSelecionadoPrimeiro('X'))
                     tipo = "X";
             }
-           
+
         }
 
         private void bntReiniciar_Click(object sender, EventArgs e)
         {
             reiniciarJogo();
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
     }
