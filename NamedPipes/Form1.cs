@@ -8,6 +8,7 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace NamedPipes
     public partial class Form1 : Form
     {
 
+        public MeuJogo meuJogo;
 
         MemoryMappedFile posicoes;
         private string tipo;
@@ -27,9 +29,29 @@ namespace NamedPipes
         {
             InitializeComponent();
 
+            meuJogo= new MeuJogo();
 
             funcaoConferenciaMemoria();
 
+        }
+
+        private string serializarMeuJogo(MeuJogo meuJogo)
+        {
+            string json=JsonSerializer.Serialize(meuJogo);
+
+            return json;
+
+        }
+
+        private void enviarParaNamedPipe(MeuJogo meuJogo)
+        {
+            string json = serializarMeuJogo(meuJogo);
+
+            NamedPipeServerStream pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
+
+            
+            pipe.Write(Encoding.UTF8.GetBytes(json),0,json.Length);
+            pipe.Flush();
         }
 
         private void reiniciarJogo()
@@ -420,6 +442,10 @@ namespace NamedPipes
 
         private void bntReiniciar_Click(object sender, EventArgs e)
         {
+            MeuJogo meu = new MeuJogo();
+            meu.Tipo = "Circulo";
+
+            enviarParaNamedPipe(meu);
             reiniciarJogo();
 
         }
