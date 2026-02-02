@@ -17,6 +17,7 @@ namespace NamedPipes
 {
     public partial class Form1 : Form
     {
+        NamedPipeServerStream pipe;
 
         public MeuJogo meuJogo;
 
@@ -29,7 +30,7 @@ namespace NamedPipes
         {
             InitializeComponent();
 
-            meuJogo= new MeuJogo();
+            meuJogo = new MeuJogo();
 
             funcaoConferenciaMemoria();
 
@@ -37,10 +38,21 @@ namespace NamedPipes
 
         private string serializarMeuJogo(MeuJogo meuJogo)
         {
-            string json=JsonSerializer.Serialize(meuJogo);
+            string json = JsonSerializer.Serialize(meuJogo);
 
             return json;
 
+        }
+
+        private async void criarNamedPipe(MeuJogo meuJogo)
+        {
+            string json = serializarMeuJogo(meuJogo);
+
+            pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
+
+            await pipe.WaitForConnectionAsync();
+
+            
         }
 
         private void enviarParaNamedPipe(MeuJogo meuJogo)
@@ -49,8 +61,10 @@ namespace NamedPipes
 
             NamedPipeServerStream pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
 
-            
-            pipe.Write(Encoding.UTF8.GetBytes(json),0,json.Length);
+           
+
+
+            pipe.Write(Encoding.UTF8.GetBytes(json), 0, json.Length);
             pipe.Flush();
         }
 
@@ -445,12 +459,20 @@ namespace NamedPipes
             MeuJogo meu = new MeuJogo();
             meu.Tipo = "Circulo";
 
-            enviarParaNamedPipe(meu);
+          
             reiniciarJogo();
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void btnPermitirConexoesRemotas_Click(object sender, EventArgs e)
+        {
+            MeuJogo meuJogo = new MeuJogo();
+            criarNamedPipe(meuJogo);
+
+            MessageBox.Show("Conectado");
+        }
+
+        private void btnConectarAdversario_Click(object sender, EventArgs e)
         {
 
         }

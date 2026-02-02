@@ -41,9 +41,11 @@
             chkLetraX = new CheckBox();
             bntReiniciar = new Button();
             label1 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            txtMeuIdentificadorRemoto = new TextBox();
+            txtAdversarioIP = new TextBox();
             label2 = new Label();
+            btnConectarAdversario = new Button();
+            btnPermitirConexoesRemotas = new Button();
             SuspendLayout();
             // 
             // btn1
@@ -183,44 +185,67 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(183, 501);
+            label1.Location = new Point(193, 501);
             label1.Name = "label1";
-            label1.Size = new Size(54, 20);
+            label1.Size = new Size(175, 20);
             label1.TabIndex = 12;
-            label1.Text = "Meu IP";
-            label1.Click += label1_Click;
+            label1.Text = "Meu Idenficador Remoto";
             // 
-            // textBox1
+            // txtMeuIdentificadorRemoto
             // 
-            textBox1.Location = new Point(183, 524);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
-            textBox1.TabIndex = 13;
+            txtMeuIdentificadorRemoto.Location = new Point(193, 524);
+            txtMeuIdentificadorRemoto.Name = "txtMeuIdentificadorRemoto";
+            txtMeuIdentificadorRemoto.Size = new Size(177, 27);
+            txtMeuIdentificadorRemoto.TabIndex = 13;
             // 
-            // textBox2
+            // txtAdversarioIP
             // 
-            textBox2.Location = new Point(183, 589);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(125, 27);
-            textBox2.TabIndex = 15;
+            txtAdversarioIP.Location = new Point(193, 589);
+            txtAdversarioIP.Name = "txtAdversarioIP";
+            txtAdversarioIP.Size = new Size(167, 27);
+            txtAdversarioIP.TabIndex = 15;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(183, 566);
+            label2.Location = new Point(193, 566);
             label2.Name = "label2";
             label2.Size = new Size(96, 20);
             label2.TabIndex = 14;
             label2.Text = "Adversário IP";
+            // 
+            // btnConectarAdversario
+            // 
+            btnConectarAdversario.Location = new Point(376, 582);
+            btnConectarAdversario.Margin = new Padding(3, 4, 3, 4);
+            btnConectarAdversario.Name = "btnConectarAdversario";
+            btnConectarAdversario.Size = new Size(208, 41);
+            btnConectarAdversario.TabIndex = 16;
+            btnConectarAdversario.Text = "Conectar com adversário";
+            btnConectarAdversario.UseVisualStyleBackColor = true;
+            btnConectarAdversario.Click += btnConectarAdversario_Click;
+            // 
+            // btnPermitirConexoesRemotas
+            // 
+            btnPermitirConexoesRemotas.Location = new Point(376, 515);
+            btnPermitirConexoesRemotas.Margin = new Padding(3, 4, 3, 4);
+            btnPermitirConexoesRemotas.Name = "btnPermitirConexoesRemotas";
+            btnPermitirConexoesRemotas.Size = new Size(208, 45);
+            btnPermitirConexoesRemotas.TabIndex = 17;
+            btnPermitirConexoesRemotas.Text = "Permitir Conexões Remotas";
+            btnPermitirConexoesRemotas.UseVisualStyleBackColor = true;
+            btnPermitirConexoesRemotas.Click += btnPermitirConexoesRemotas_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(909, 665);
-            Controls.Add(textBox2);
+            Controls.Add(btnPermitirConexoesRemotas);
+            Controls.Add(btnConectarAdversario);
+            Controls.Add(txtAdversarioIP);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(txtMeuIdentificadorRemoto);
             Controls.Add(label1);
             Controls.Add(bntReiniciar);
             Controls.Add(chkLetraX);
@@ -258,9 +283,11 @@
         private System.Windows.Forms.CheckBox chkLetraX;
         private System.Windows.Forms.Button bntReiniciar;
         private Label label1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox txtMeuIdentificadorRemoto;
+        private TextBox txtAdversarioIP;
         private Label label2;
+        private Button btnConectarAdversario;
+        private Button btnPermitirConexoesRemotas;
     }
 }
 
