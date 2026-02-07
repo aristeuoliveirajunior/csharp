@@ -40,18 +40,18 @@
             chkCirculo = new CheckBox();
             chkLetraX = new CheckBox();
             bntReiniciar = new Button();
-            label1 = new Label();
-            txtMeuIdentificadorRemoto = new TextBox();
             txtAdversarioIP = new TextBox();
             label2 = new Label();
             btnConectarAdversario = new Button();
             btnPermitirConexoesRemotas = new Button();
+            txtNomeJogo = new TextBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // btn1
             // 
             btn1.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn1.Location = new Point(183, 39);
+            btn1.Location = new Point(227, 100);
             btn1.Margin = new Padding(3, 4, 3, 4);
             btn1.Name = "btn1";
             btn1.Size = new Size(177, 121);
@@ -62,7 +62,7 @@
             // btn2
             // 
             btn2.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn2.Location = new Point(357, 39);
+            btn2.Location = new Point(401, 100);
             btn2.Margin = new Padding(3, 4, 3, 4);
             btn2.Name = "btn2";
             btn2.Size = new Size(177, 121);
@@ -73,7 +73,7 @@
             // btn3
             // 
             btn3.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn3.Location = new Point(526, 39);
+            btn3.Location = new Point(570, 100);
             btn3.Margin = new Padding(3, 4, 3, 4);
             btn3.Name = "btn3";
             btn3.Size = new Size(177, 121);
@@ -84,7 +84,7 @@
             // btn4
             // 
             btn4.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn4.Location = new Point(183, 155);
+            btn4.Location = new Point(227, 216);
             btn4.Margin = new Padding(3, 4, 3, 4);
             btn4.Name = "btn4";
             btn4.Size = new Size(177, 121);
@@ -95,7 +95,7 @@
             // btn5
             // 
             btn5.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn5.Location = new Point(357, 155);
+            btn5.Location = new Point(401, 216);
             btn5.Margin = new Padding(3, 4, 3, 4);
             btn5.Name = "btn5";
             btn5.Size = new Size(177, 121);
@@ -106,7 +106,7 @@
             // btn6
             // 
             btn6.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn6.Location = new Point(526, 155);
+            btn6.Location = new Point(570, 216);
             btn6.Margin = new Padding(3, 4, 3, 4);
             btn6.Name = "btn6";
             btn6.Size = new Size(177, 121);
@@ -117,7 +117,7 @@
             // btn7
             // 
             btn7.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn7.Location = new Point(183, 271);
+            btn7.Location = new Point(227, 332);
             btn7.Margin = new Padding(3, 4, 3, 4);
             btn7.Name = "btn7";
             btn7.Size = new Size(177, 121);
@@ -128,7 +128,7 @@
             // btn8
             // 
             btn8.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn8.Location = new Point(357, 271);
+            btn8.Location = new Point(401, 332);
             btn8.Margin = new Padding(3, 4, 3, 4);
             btn8.Name = "btn8";
             btn8.Size = new Size(177, 121);
@@ -139,7 +139,7 @@
             // btn9
             // 
             btn9.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn9.Location = new Point(526, 271);
+            btn9.Location = new Point(570, 332);
             btn9.Margin = new Padding(3, 4, 3, 4);
             btn9.Name = "btn9";
             btn9.Size = new Size(177, 121);
@@ -150,7 +150,7 @@
             // chkCirculo
             // 
             chkCirculo.AutoSize = true;
-            chkCirculo.Location = new Point(617, 411);
+            chkCirculo.Location = new Point(661, 472);
             chkCirculo.Margin = new Padding(3, 4, 3, 4);
             chkCirculo.Name = "chkCirculo";
             chkCirculo.Size = new Size(77, 24);
@@ -162,7 +162,7 @@
             // chkLetraX
             // 
             chkLetraX.AutoSize = true;
-            chkLetraX.Location = new Point(617, 456);
+            chkLetraX.Location = new Point(661, 517);
             chkLetraX.Margin = new Padding(3, 4, 3, 4);
             chkLetraX.Name = "chkLetraX";
             chkLetraX.Size = new Size(77, 24);
@@ -173,7 +173,7 @@
             // 
             // bntReiniciar
             // 
-            bntReiniciar.Location = new Point(183, 400);
+            bntReiniciar.Location = new Point(227, 461);
             bntReiniciar.Margin = new Padding(3, 4, 3, 4);
             bntReiniciar.Name = "bntReiniciar";
             bntReiniciar.Size = new Size(162, 80);
@@ -182,25 +182,9 @@
             bntReiniciar.UseVisualStyleBackColor = true;
             bntReiniciar.Click += bntReiniciar_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(193, 501);
-            label1.Name = "label1";
-            label1.Size = new Size(175, 20);
-            label1.TabIndex = 12;
-            label1.Text = "Meu Idenficador Remoto";
-            // 
-            // txtMeuIdentificadorRemoto
-            // 
-            txtMeuIdentificadorRemoto.Location = new Point(193, 524);
-            txtMeuIdentificadorRemoto.Name = "txtMeuIdentificadorRemoto";
-            txtMeuIdentificadorRemoto.Size = new Size(177, 27);
-            txtMeuIdentificadorRemoto.TabIndex = 13;
-            // 
             // txtAdversarioIP
             // 
-            txtAdversarioIP.Location = new Point(193, 589);
+            txtAdversarioIP.Location = new Point(227, 672);
             txtAdversarioIP.Name = "txtAdversarioIP";
             txtAdversarioIP.Size = new Size(167, 27);
             txtAdversarioIP.TabIndex = 15;
@@ -208,7 +192,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(193, 566);
+            label2.Location = new Point(227, 649);
             label2.Name = "label2";
             label2.Size = new Size(96, 20);
             label2.TabIndex = 14;
@@ -216,7 +200,7 @@
             // 
             // btnConectarAdversario
             // 
-            btnConectarAdversario.Location = new Point(376, 582);
+            btnConectarAdversario.Location = new Point(410, 658);
             btnConectarAdversario.Margin = new Padding(3, 4, 3, 4);
             btnConectarAdversario.Name = "btnConectarAdversario";
             btnConectarAdversario.Size = new Size(208, 41);
@@ -227,25 +211,41 @@
             // 
             // btnPermitirConexoesRemotas
             // 
-            btnPermitirConexoesRemotas.Location = new Point(376, 515);
+            btnPermitirConexoesRemotas.Location = new Point(227, 565);
             btnPermitirConexoesRemotas.Margin = new Padding(3, 4, 3, 4);
             btnPermitirConexoesRemotas.Name = "btnPermitirConexoesRemotas";
-            btnPermitirConexoesRemotas.Size = new Size(208, 45);
+            btnPermitirConexoesRemotas.Size = new Size(520, 45);
             btnPermitirConexoesRemotas.TabIndex = 17;
-            btnPermitirConexoesRemotas.Text = "Permitir Conexões Remotas";
+            btnPermitirConexoesRemotas.Text = "Permitir Conexão com Adversário";
             btnPermitirConexoesRemotas.UseVisualStyleBackColor = true;
             btnPermitirConexoesRemotas.Click += btnPermitirConexoesRemotas_Click;
+            // 
+            // txtNomeJogo
+            // 
+            txtNomeJogo.Location = new Point(227, 66);
+            txtNomeJogo.Name = "txtNomeJogo";
+            txtNomeJogo.Size = new Size(511, 27);
+            txtNomeJogo.TabIndex = 13;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(227, 43);
+            label1.Name = "label1";
+            label1.Size = new Size(108, 20);
+            label1.TabIndex = 12;
+            label1.Text = "Nome do Jogo";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(909, 665);
+            ClientSize = new Size(988, 734);
             Controls.Add(btnPermitirConexoesRemotas);
             Controls.Add(btnConectarAdversario);
             Controls.Add(txtAdversarioIP);
             Controls.Add(label2);
-            Controls.Add(txtMeuIdentificadorRemoto);
+            Controls.Add(txtNomeJogo);
             Controls.Add(label1);
             Controls.Add(bntReiniciar);
             Controls.Add(chkLetraX);
@@ -282,12 +282,12 @@
         private System.Windows.Forms.CheckBox chkCirculo;
         private System.Windows.Forms.CheckBox chkLetraX;
         private System.Windows.Forms.Button bntReiniciar;
-        private Label label1;
-        private TextBox txtMeuIdentificadorRemoto;
         private TextBox txtAdversarioIP;
         private Label label2;
         private Button btnConectarAdversario;
         private Button btnPermitirConexoesRemotas;
+        private TextBox txtNomeJogo;
+        private Label label1;
     }
 }
 

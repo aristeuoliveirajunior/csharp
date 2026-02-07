@@ -18,6 +18,7 @@ namespace NamedPipes
     public partial class Form1 : Form
     {
         NamedPipeServerStream pipe;
+        NamedPipeClientStream pipeCliente;
 
         public MeuJogo meuJogo;
 
@@ -44,15 +45,29 @@ namespace NamedPipes
 
         }
 
-        private async void criarNamedPipe(MeuJogo meuJogo)
+        private  void criarNamedPipe(MeuJogo meuJogo)
         {
-            string json = serializarMeuJogo(meuJogo);
+          
 
-            pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
+            pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.Out, 1, PipeTransmissionMode.Message);
 
-            await pipe.WaitForConnectionAsync();
+            Task promise=pipe.WaitForConnectionAsync();
+
+            promise.ContinueWith(x => { MessageBox.Show("Conexão com adversário estabelecida"); });
+
+            MessageBox.Show("Aguardando adversário solicitar conexão");
 
             
+        }
+
+        private async void ConectarNamedPipe(string servidor,string nomeJogo)
+        {
+
+            pipeCliente = new NamedPipeClientStream(servidor,nomeJogo,PipeDirection.In);
+
+             pipeCliente.Connect(10000);
+
+
         }
 
         private void enviarParaNamedPipe(MeuJogo meuJogo)
@@ -474,7 +489,7 @@ namespace NamedPipes
 
         private void btnConectarAdversario_Click(object sender, EventArgs e)
         {
-
+            ConectarNamedPipe(txtAdversarioIP.Text, txtNomeJogo.Text);
         }
     }
 }
