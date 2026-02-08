@@ -49,11 +49,12 @@ namespace NamedPipes
         {
           
 
-            pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.Out, 1, PipeTransmissionMode.Message);
+            pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
 
             Task promise=pipe.WaitForConnectionAsync();
 
-            promise.ContinueWith(x => { MessageBox.Show("Conexão com adversário estabelecida"); });
+
+            promise.ContinueWith(x => { MessageBox.Show("Adversário se conectou!"); });
 
             MessageBox.Show("Aguardando adversário solicitar conexão");
 
@@ -62,10 +63,19 @@ namespace NamedPipes
 
         private async void ConectarNamedPipe(string servidor,string nomeJogo)
         {
+            try
+            {
+                pipeCliente = new NamedPipeClientStream(servidor, nomeJogo, PipeDirection.InOut);
 
-            pipeCliente = new NamedPipeClientStream(servidor,nomeJogo,PipeDirection.In);
+                pipeCliente.Connect(10000);
 
-             pipeCliente.Connect(10000);
+                MessageBox.Show("Conexão estabelecida com adversário.");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Não foi possível conectar ao adversário");
+            }
+            
 
 
         }
@@ -484,7 +494,7 @@ namespace NamedPipes
             MeuJogo meuJogo = new MeuJogo();
             criarNamedPipe(meuJogo);
 
-            MessageBox.Show("Conectado");
+           
         }
 
         private void btnConectarAdversario_Click(object sender, EventArgs e)
