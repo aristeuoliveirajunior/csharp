@@ -45,23 +45,23 @@ namespace NamedPipes
 
         }
 
-        private  void criarNamedPipe(MeuJogo meuJogo)
+        private void criarNamedPipe(MeuJogo meuJogo)
         {
-          
+
 
             pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
 
-            Task promise=pipe.WaitForConnectionAsync();
+            Task promise = pipe.WaitForConnectionAsync();
 
 
             promise.ContinueWith(x => { MessageBox.Show("Adversário se conectou!"); });
 
             MessageBox.Show("Aguardando adversário solicitar conexão");
 
-            
+
         }
 
-        private async void ConectarNamedPipe(string servidor,string nomeJogo)
+        private async void ConectarNamedPipe(string servidor, string nomeJogo)
         {
             try
             {
@@ -71,11 +71,11 @@ namespace NamedPipes
 
                 MessageBox.Show("Conexão estabelecida com adversário.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Não foi possível conectar ao adversário");
             }
-            
+
 
 
         }
@@ -86,7 +86,7 @@ namespace NamedPipes
 
             NamedPipeServerStream pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
 
-           
+
 
 
             pipe.Write(Encoding.UTF8.GetBytes(json), 0, json.Length);
@@ -116,25 +116,27 @@ namespace NamedPipes
             access.Write(0, valor);
         }
 
-        private bool setTipoSelecionadoPrimeiro(char tipo)
+        private bool setTipoSelecionadoPrimeiro(string tipo)
         {
-            tipoSelecionadoPrimeiro = MemoryMappedFile.CreateOrOpen("sharedmemorytiposelecionadoprimeiro", sizeof(char));
-            var access = tipoSelecionadoPrimeiro.CreateViewAccessor();
-            char tipolido = 'c';
+            // tipoSelecionadoPrimeiro = MemoryMappedFile.CreateOrOpen("sharedmemorytiposelecionadoprimeiro", sizeof(char));
+            //var access = tipoSelecionadoPrimeiro.CreateViewAccessor();
+            // char tipolido = 'c';
 
-            access.Read<char>(0, out tipolido);
+            // access.Read<char>(0, out tipolido);
 
-            if (tipo == tipolido)
-            {
-                MessageBox.Show("Símbolo já selecionado!");
-                chkCirculo.Checked = false;
-                chkLetraX.Checked = false;
+            // if (tipo == tipolido)
+            //{
+            //   MessageBox.Show("Símbolo já selecionado!");
+            //  chkCirculo.Checked = false;
+            // chkLetraX.Checked = false;
 
-                return false;
-            }
+            // return false;
+            // }
 
 
-            access.Write<char>(0, ref tipo);
+            // access.Write<char>(0, ref tipo);
+
+            meuJogo.Tipo = tipo;
 
             return true;
         }
@@ -293,11 +295,11 @@ namespace NamedPipes
 
         private char getValor(int coluna)
         {
-            var access = posicoes.CreateViewAccessor();
+            // var access = posicoes.CreateViewAccessor();
 
-            int posicao = coluna * sizeof(char);
+            //int posicao = coluna * sizeof(char);
 
-            return access.ReadChar(posicao);
+            return meuJogo.posicoes[coluna];
         }
 
         private void setValor(int coluna, char valor)
@@ -318,12 +320,13 @@ namespace NamedPipes
                 return;
             }
 
+            meuJogo.posicoes[coluna] = valor;
 
-            var access = posicoes.CreateViewAccessor();
+            // var access = posicoes.CreateViewAccessor();
 
-            int posicao = coluna * sizeof(char);
+            // int posicao = coluna * sizeof(char);
 
-            access.Write<char>(posicao, ref valor);
+            // access.Write<char>(posicao, ref valor);
 
             setUltimaJogada(valor);
         }
@@ -455,7 +458,7 @@ namespace NamedPipes
             if (chkCirculo.Checked)
             {
 
-                if (setTipoSelecionadoPrimeiro('O'))
+                if (setTipoSelecionadoPrimeiro("O"))
                     tipo = "O";
             }
 
@@ -473,7 +476,7 @@ namespace NamedPipes
 
             if (chkLetraX.Checked)
             {
-                if (setTipoSelecionadoPrimeiro('X'))
+                if (setTipoSelecionadoPrimeiro("X"))
                     tipo = "X";
             }
 
@@ -484,7 +487,7 @@ namespace NamedPipes
             MeuJogo meu = new MeuJogo();
             meu.Tipo = "Circulo";
 
-          
+
             reiniciarJogo();
 
         }
@@ -494,12 +497,25 @@ namespace NamedPipes
             MeuJogo meuJogo = new MeuJogo();
             criarNamedPipe(meuJogo);
 
-           
+
         }
 
         private void btnConectarAdversario_Click(object sender, EventArgs e)
         {
             ConectarNamedPipe(txtAdversarioIP.Text, txtNomeJogo.Text);
+        }
+
+        private void btnDefinirNomeJogador_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(txtNomeJogador.Text))
+            {
+                MessageBox.Show("Defina o nome do jogador!");
+                return;
+            }
+
+            meuJogo.NomeJogador=txtNomeJogador.Text;
+            lblNomeJogador.Text= "Jogador: " + txtNomeJogador.Text;
+            
         }
     }
 }
