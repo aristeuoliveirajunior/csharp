@@ -7,6 +7,7 @@ using System.IO.MemoryMappedFiles;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -20,7 +21,7 @@ namespace NamedPipes
         NamedPipeServerStream pipe;
         NamedPipeClientStream pipeCliente;
 
-        public MeuJogo meuJogo;
+        public MeuJogo? meuJogo;
 
         MemoryMappedFile posicoes;
         private string tipo;
@@ -43,6 +44,29 @@ namespace NamedPipes
 
             return json;
 
+        }
+
+        private void enviarMensagemPipe()
+        {
+            string json=JsonSerializer.Serialize(meuJogo);
+            byte[] data = Encoding.UTF8.GetBytes(json);
+
+            pipe.Write(data,0,data.Length);
+        }
+
+        private void lerMensagemPipe()
+        {
+            string message = "";
+            byte[] data = new byte[100];
+
+            do
+            {
+                int t = pipe.Read(data, 0, data.Length);
+                message += Encoding.UTF8.GetString(data, 0, t);
+            } while (!pipe.IsMessageComplete);
+
+
+            meuJogo = JsonSerializer.Deserialize<MeuJogo>(message);
         }
 
         private void criarNamedPipe(MeuJogo meuJogo)
