@@ -21,7 +21,7 @@ namespace NamedPipes
         NamedPipeServerStream pipe;
         NamedPipeClientStream pipeCliente;
 
-        public MeuJogo? meuJogo;
+        public MeuJogo meuJogo=new MeuJogo();
 
         MemoryMappedFile posicoes;
         private string tipo;
@@ -54,7 +54,7 @@ namespace NamedPipes
             pipe.Write(data,0,data.Length);
         }
 
-        private void lerMensagemPipe()
+        private MeuJogo lerMensagemPipe()
         {
             string message = "";
             byte[] data = new byte[100];
@@ -82,6 +82,54 @@ namespace NamedPipes
 
             MessageBox.Show("Aguardando adversário solicitar conexão");
 
+
+        }
+
+
+        private void funcaoConferenciaPipe()
+        {
+
+
+            Thread th = new Thread(() =>
+            {
+                while (true)
+                {
+                    funcaoThreadConferePipe();
+                    Thread.Sleep(1000);
+                }
+            });
+
+            th.IsBackground = true;
+            th.Start();
+        }
+
+        private void funcaoThreadConferePipe()
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    if (posicoes != null)
+                    {
+
+                        btn1.Text = getValorJogoAdversario(0).ToString();
+                        btn2.Text = getValorJogoAdversario(1).ToString();
+                        btn3.Text = getValorJogoAdversario(2).ToString();
+
+                        btn4.Text = getValorJogoAdversario(3).ToString();
+                        btn5.Text = getValorJogoAdversario(4).ToString();
+                        btn6.Text = getValorJogoAdversario(5).ToString();
+
+                        btn7.Text = getValorJogoAdversario(6).ToString();
+                        btn8.Text = getValorJogoAdversario(7).ToString();
+                        btn9.Text = getValorJogoAdversario(8).ToString();
+
+                    }
+
+                }));
+
+                return;
+            }
 
         }
 
@@ -293,12 +341,7 @@ namespace NamedPipes
             th.Start();
         }
 
-        private void inicializarMemoria()
-        {
-
-            long tamanho = 9 * sizeof(char);
-            posicoes = MemoryMappedFile.CreateOrOpen("sharedMemory", tamanho);
-        }
+        
 
         private void setValorPosicao(Button btn, int posicao)
         {
@@ -319,9 +362,12 @@ namespace NamedPipes
 
         private char getValor(int coluna)
         {
-            // var access = posicoes.CreateViewAccessor();
+            return meuJogo.posicoes[coluna];
+        }
 
-            //int posicao = coluna * sizeof(char);
+        private char getValorJogoAdversario(int coluna)
+        {
+            lerMensagemPipe();
 
             return meuJogo.posicoes[coluna];
         }
@@ -346,11 +392,7 @@ namespace NamedPipes
 
             meuJogo.posicoes[coluna] = valor;
 
-            // var access = posicoes.CreateViewAccessor();
-
-            // int posicao = coluna * sizeof(char);
-
-            // access.Write<char>(posicao, ref valor);
+            enviarMensagemPipe();
 
             setUltimaJogada(valor);
         }
@@ -466,7 +508,7 @@ namespace NamedPipes
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            inicializarMemoria();
+            funcaoConferenciaPipe();
         }
 
 
