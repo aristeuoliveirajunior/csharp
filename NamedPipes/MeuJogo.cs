@@ -16,6 +16,8 @@ namespace NamedPipes
 
         public string NomeJogador { get; set; }
 
+        public string QuemFezAUltimaJogada { get; set; }
+
 
 
         public MeuJogo()
