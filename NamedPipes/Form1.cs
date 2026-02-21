@@ -34,56 +34,67 @@ namespace NamedPipes
 
             meuJogo = new MeuJogo();
 
-            funcaoConferenciaPipe();
-
+           
         }
 
-        private string serializarMeuJogo(MeuJogo meuJogo)
-        {
-            string json = JsonSerializer.Serialize(meuJogo);
-
-            return json;
-
-        }
+       
 
         private void enviarMensagemPipe()
         {
             string json=JsonSerializer.Serialize(meuJogo);
             byte[] data = Encoding.UTF8.GetBytes(json);
 
-            pipe.Write(data,0,data.Length);
+            if(pipe!=null)
+                pipe.Write(data, 0, data.Length);
+            else
+                pipeCliente.Write(data, 0, data.Length);
         }
 
-        private MeuJogo? lerMensagemPipe()
+        private async Task<MeuJogo?> lerMensagemPipe()
         {
-            if(pipe!=null && pipe.IsConnected)
-            {
+
+            int t = 0;
+            
                 string message = "";
                 byte[] data = new byte[100];
 
                 do
                 {
-                    int t = pipe.Read(data, 0, data.Length);
-                    message += Encoding.UTF8.GetString(data, 0, t);
-                } while (!pipe.IsMessageComplete);
+                    try
+                    {
+                        if (pipe != null && pipe.IsConnected)
+                            t = await pipe.ReadAsync(data, 0, data.Length, new CancellationTokenSource(2000).Token);
+                        else if (pipeCliente != null && pipeCliente.IsConnected)
+                            t = await pipeCliente.ReadAsync(data, 0, data.Length, new CancellationTokenSource(2000).Token);
+                        else
+                            return null;
+                        if (t > 0)
+                        message += Encoding.UTF8.GetString(data, 0, t);
+                    }
+                    catch 
+                    {
+                         return null;
+                    }
+                   
+                } while (((pipe!=null && !pipe.IsMessageComplete)|| (pipeCliente != null && !pipeCliente.IsMessageComplete)) && t>0);
 
 
-                MeuJogo? jogoAdversario = JsonSerializer.Deserialize<MeuJogo>(message);
-
-                if(jogoAdversario!=null)
+                if(!string.IsNullOrEmpty(message))
                 {
-                    meuJogo = jogoAdversario;
+                    MeuJogo? jogoAdversario = JsonSerializer.Deserialize<MeuJogo>(message);
+
+                    if (jogoAdversario != null)
+                    {
+                        meuJogo = jogoAdversario;
+                    }
                 }
+                
 
-                return meuJogo;
-            }
-            else
-            {
-                return null;
+            return meuJogo;
+                
             }
 
-            
-        }
+     
 
         private void criarNamedPipe(MeuJogo meuJogo)
         {
@@ -100,7 +111,14 @@ namespace NamedPipes
                 return;
             }
 
-            pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
+            try
+            {
+                pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             Task promise = pipe.WaitForConnectionAsync();
 
@@ -122,7 +140,7 @@ namespace NamedPipes
                 while (true)
                 {
                     funcaoThreadConferePipe();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                 }
             });
 
@@ -130,13 +148,13 @@ namespace NamedPipes
             th.Start();
         }
 
-        private void funcaoThreadConferePipe()
+        private  void funcaoThreadConferePipe()
         {
             if (InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() =>
+                this.Invoke(new MethodInvoker(async () =>
                 {
-                    MeuJogo? jogoAdversario=lerMensagemPipe();
+                    MeuJogo? jogoAdversario=await lerMensagemPipe();
 
                     if (jogoAdversario != null)
                     {
@@ -168,14 +186,19 @@ namespace NamedPipes
         {
             try
             {
-                pipeCliente = new NamedPipeClientStream(servidor, nomeJogo, PipeDirection.InOut);
+                servidor = servidor.Trim();
+
+                pipeCliente = new NamedPipeClientStream(servidor, nomeJogo, PipeDirection.InOut,PipeOptions.Asynchronous);
 
                 pipeCliente.Connect(10000);
+
+                pipeCliente.ReadMode = PipeTransmissionMode.Message;
 
                 MessageBox.Show("Conexão estabelecida com adversário.");
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 MessageBox.Show("Não foi possível conectar ao adversário");
             }
 
@@ -183,32 +206,40 @@ namespace NamedPipes
 
         }
 
-        private void enviarParaNamedPipe(MeuJogo meuJogo)
-        {
-            string json = serializarMeuJogo(meuJogo);
-
-            NamedPipeServerStream pipe = new NamedPipeServerStream("meuJogo", PipeDirection.Out, 1, PipeTransmissionMode.Message);
-
-
-
-
-            pipe.Write(Encoding.UTF8.GetBytes(json), 0, json.Length);
-            pipe.Flush();
-        }
+       
 
         private void reiniciarJogo()
         {
-         
 
-            for (int cont = 0; cont <= 8; cont++)
+
+            if (InvokeRequired)
             {
-                var access = posicoes.CreateViewAccessor();
+                this.Invoke(new MethodInvoker(async () =>
+                {
+                    MeuJogo? novoJogo = new MeuJogo();
 
-                int posicao = cont * sizeof(char);
+                    if (novoJogo != null)
+                    {
 
-                char valor = '\0';
+                        btn1.Text = getValorJogoAdversario(novoJogo, 0).ToString();
+                        btn2.Text = getValorJogoAdversario(novoJogo, 1).ToString();
+                        btn3.Text = getValorJogoAdversario(novoJogo, 2).ToString();
 
-                access.Write<char>(posicao, ref valor);
+                        btn4.Text = getValorJogoAdversario(novoJogo, 3).ToString();
+                        btn5.Text = getValorJogoAdversario(novoJogo, 4).ToString();
+                        btn6.Text = getValorJogoAdversario(novoJogo, 5).ToString();
+
+                        btn7.Text = getValorJogoAdversario(novoJogo, 6).ToString();
+                        btn8.Text = getValorJogoAdversario(novoJogo, 7).ToString();
+                        btn9.Text = getValorJogoAdversario(novoJogo, 8).ToString();
+
+                        this.meuJogo = novoJogo;
+
+                    }
+
+                }));
+
+                return;
             }
         }
 
@@ -216,24 +247,7 @@ namespace NamedPipes
 
         private bool setTipoSelecionadoPrimeiro(string tipo)
         {
-            // tipoSelecionadoPrimeiro = MemoryMappedFile.CreateOrOpen("sharedmemorytiposelecionadoprimeiro", sizeof(char));
-            //var access = tipoSelecionadoPrimeiro.CreateViewAccessor();
-            // char tipolido = 'c';
-
-            // access.Read<char>(0, out tipolido);
-
-            // if (tipo == tipolido)
-            //{
-            //   MessageBox.Show("Símbolo já selecionado!");
-            //  chkCirculo.Checked = false;
-            // chkLetraX.Checked = false;
-
-            // return false;
-            // }
-
-
-            // access.Write<char>(0, ref tipo);
-
+            
             meuJogo.Tipo = tipo;
 
             return true;
@@ -348,8 +362,12 @@ namespace NamedPipes
         private void setValorPosicao(Button btn, int posicao)
         {
             char valor = validaValor(getValor(posicao));
-            btn.Text = valor.ToString();
-            setValor(posicao, valor);
+            bool resultado= setValor(posicao, valor);
+            if (resultado)
+            {
+                btn.Text = valor.ToString();
+            }
+            
         }
 
         private char validaValor(char valor)
@@ -374,29 +392,30 @@ namespace NamedPipes
             return '\0';
         }
 
-        private void setValor(int coluna, char valor)
+        private bool setValor(int coluna, char valor)
         {
             if (getValor(coluna) == 'X' || getValor(coluna) == 'O')
             {
                 MessageBox.Show("Esta posição já foi preenchida!");
-                return;
+                return false; ;
             }
             if (valor == '\0')
             {
                 MessageBox.Show("Você deve selecionar o seu símbolo para jogar");
-                return;
+                return false;
             }
-            if (meuJogo.QuemFezAUltimaJogada == meuJogo.NomeJogador)
+            if (meuJogo.QuemFezAUltimaJogada == txtNomeJogador.Text)
             {
                 MessageBox.Show("Você já jogou, aguarde a jogada do colega!");
-                return;
+                return false;
             }
 
             meuJogo.posicoes[coluna] = valor;
-            meuJogo.QuemFezAUltimaJogada = meuJogo.NomeJogador;
+            meuJogo.QuemFezAUltimaJogada = txtNomeJogador.Text;
 
             enviarMensagemPipe();
 
+            return true;
            
         }
 

@@ -12,7 +12,7 @@ namespace NamedPipes
 
         public bool JoqueiPorUltimo { get; set; }
 
-        public char[] posicoes;
+        public char[] posicoes { get; set; }
 
         public string NomeJogador { get; set; }
 
