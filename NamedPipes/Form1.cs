@@ -28,13 +28,17 @@ namespace NamedPipes
         MemoryMappedFile ultimaJogada;
         MemoryMappedFile tipoSelecionadoPrimeiro;
 
+        private string nomeJogo;
+        private string nomeJogador;
+
         public Form1()
         {
             InitializeComponent();
 
             meuJogo = new MeuJogo();
 
-           
+            this.nomeJogo = "jogoDaVelha";
+            this.nomeJogador = new Random().Next().ToString() + DateTime.Now.Second;
         }
 
        
@@ -99,21 +103,9 @@ namespace NamedPipes
         private void criarNamedPipe(MeuJogo meuJogo)
         {
 
-            if(string.IsNullOrEmpty(txtNomeJogo.Text))
-            {
-                MessageBox.Show("Defina o nome do jogo, o seu adversário deve definir o mesmo nome!");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtNomeJogador.Text))
-            {
-                MessageBox.Show("Defina o seu nome de jogador!");
-                return;
-            }
-
             try
             {
-                pipe = new NamedPipeServerStream(txtNomeJogo.Text, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
+                pipe = new NamedPipeServerStream(nomeJogo, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
             }
             catch(Exception ex)
             {
@@ -159,17 +151,17 @@ namespace NamedPipes
                     if (jogoAdversario != null)
                     {
 
-                        btn1.Text = getValorJogoAdversario(jogoAdversario,0).ToString();
-                        btn2.Text = getValorJogoAdversario(jogoAdversario, 1).ToString();
-                        btn3.Text = getValorJogoAdversario(jogoAdversario, 2).ToString();
+                        btn1.Text = getValorJogo(jogoAdversario,0).ToString();
+                        btn2.Text = getValorJogo(jogoAdversario, 1).ToString();
+                        btn3.Text = getValorJogo(jogoAdversario, 2).ToString();
 
-                        btn4.Text = getValorJogoAdversario(jogoAdversario, 3).ToString();
-                        btn5.Text = getValorJogoAdversario(jogoAdversario, 4).ToString();
-                        btn6.Text = getValorJogoAdversario(jogoAdversario, 5).ToString();
+                        btn4.Text = getValorJogo(jogoAdversario, 3).ToString();
+                        btn5.Text = getValorJogo(jogoAdversario, 4).ToString();
+                        btn6.Text = getValorJogo(jogoAdversario, 5).ToString();
 
-                        btn7.Text = getValorJogoAdversario(jogoAdversario, 6).ToString();
-                        btn8.Text = getValorJogoAdversario(jogoAdversario, 7).ToString();
-                        btn9.Text = getValorJogoAdversario(jogoAdversario, 8).ToString();
+                        btn7.Text = getValorJogo(jogoAdversario, 6).ToString();
+                        btn8.Text = getValorJogo(jogoAdversario, 7).ToString();
+                        btn9.Text = getValorJogo(jogoAdversario, 8).ToString();
 
                         this.meuJogo = jogoAdversario;
 
@@ -211,36 +203,31 @@ namespace NamedPipes
         private void reiniciarJogo()
         {
 
+            MeuJogo? novoJogo = new MeuJogo();
+            novoJogo.QuemFezAUltimaJogada=nomeJogador;
+            
 
-            if (InvokeRequired)
+            if (novoJogo != null)
             {
-                this.Invoke(new MethodInvoker(async () =>
-                {
-                    MeuJogo? novoJogo = new MeuJogo();
 
-                    if (novoJogo != null)
-                    {
+                btn1.Text = getValorJogo(novoJogo, 0).ToString();
+                btn2.Text = getValorJogo(novoJogo, 1).ToString();
+                btn3.Text = getValorJogo(novoJogo, 2).ToString();
 
-                        btn1.Text = getValorJogoAdversario(novoJogo, 0).ToString();
-                        btn2.Text = getValorJogoAdversario(novoJogo, 1).ToString();
-                        btn3.Text = getValorJogoAdversario(novoJogo, 2).ToString();
+                btn4.Text = getValorJogo(novoJogo, 3).ToString();
+                btn5.Text = getValorJogo(novoJogo, 4).ToString();
+                btn6.Text = getValorJogo(novoJogo, 5).ToString();
 
-                        btn4.Text = getValorJogoAdversario(novoJogo, 3).ToString();
-                        btn5.Text = getValorJogoAdversario(novoJogo, 4).ToString();
-                        btn6.Text = getValorJogoAdversario(novoJogo, 5).ToString();
+                btn7.Text = getValorJogo(novoJogo, 6).ToString();
+                btn8.Text = getValorJogo(novoJogo, 7).ToString();
+                btn9.Text = getValorJogo(novoJogo, 8).ToString();
 
-                        btn7.Text = getValorJogoAdversario(novoJogo, 6).ToString();
-                        btn8.Text = getValorJogoAdversario(novoJogo, 7).ToString();
-                        btn9.Text = getValorJogoAdversario(novoJogo, 8).ToString();
+                this.meuJogo = novoJogo;
 
-                        this.meuJogo = novoJogo;
-
-                    }
-
-                }));
-
-                return;
             }
+
+            enviarMensagemPipe();
+
         }
 
        
@@ -326,38 +313,8 @@ namespace NamedPipes
 
         }
 
-        private void funcaoThreadConfereMemoria()
-        {
-            if (InvokeRequired)
-            {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    if (posicoes != null)
-                    {
-
-                        btn1.Text = getValor(0).ToString();
-                        btn2.Text = getValor(1).ToString();
-                        btn3.Text = getValor(2).ToString();
-
-                        btn4.Text = getValor(3).ToString();
-                        btn5.Text = getValor(4).ToString();
-                        btn6.Text = getValor(5).ToString();
-
-                        btn7.Text = getValor(6).ToString();
-                        btn8.Text = getValor(7).ToString();
-                        btn9.Text = getValor(8).ToString();
-
-                    }
-
-                }));
-
-                return;
-            }
-
-        }
-
-       
         
+
 
         private void setValorPosicao(Button btn, int posicao)
         {
@@ -385,7 +342,7 @@ namespace NamedPipes
             return meuJogo.posicoes[coluna];
         }
 
-        private char getValorJogoAdversario(MeuJogo? jogoAdversario,int coluna)
+        private char getValorJogo(MeuJogo? jogoAdversario,int coluna)
         {
             if(jogoAdversario!=null)
                 return jogoAdversario.posicoes[coluna];
@@ -404,14 +361,14 @@ namespace NamedPipes
                 MessageBox.Show("Você deve selecionar o seu símbolo para jogar");
                 return false;
             }
-            if (meuJogo.QuemFezAUltimaJogada == txtNomeJogador.Text)
+            if (meuJogo.QuemFezAUltimaJogada == nomeJogador)
             {
                 MessageBox.Show("Você já jogou, aguarde a jogada do colega!");
                 return false;
             }
 
             meuJogo.posicoes[coluna] = valor;
-            meuJogo.QuemFezAUltimaJogada = txtNomeJogador.Text;
+            meuJogo.QuemFezAUltimaJogada = nomeJogador;
 
             enviarMensagemPipe();
 
@@ -534,13 +491,25 @@ namespace NamedPipes
         }
 
 
+
         private void chkCirculo_CheckedChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(tipo))
             {
                 MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
-                chkCirculo.Checked = false;
-                return;
+
+                if (tipo == "O")
+                {
+                    chkCirculo.Checked = true;
+                    chkLetraX.Checked = false;
+                }
+                else
+                {
+                    chkCirculo.Checked = false;
+                    chkLetraX.Checked = true;
+                }
+
+                 return;
             }
 
             if (chkCirculo.Checked)
@@ -558,9 +527,22 @@ namespace NamedPipes
             if (!string.IsNullOrEmpty(tipo))
             {
                 MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
-                chkLetraX.Checked = false;
+
+                if (tipo == "O")
+                {
+                    chkCirculo.Checked = true;
+                    chkLetraX.Checked = false;
+                }
+                else
+                {
+                    chkCirculo.Checked = false;
+                    chkLetraX.Checked = true;
+                }
+
                 return;
             }
+
+
 
             if (chkLetraX.Checked)
             {
@@ -573,8 +555,7 @@ namespace NamedPipes
         private void bntReiniciar_Click(object sender, EventArgs e)
         {
             MeuJogo meu = new MeuJogo();
-            meu.Tipo = "Circulo";
-
+           
 
             reiniciarJogo();
 
@@ -590,19 +571,19 @@ namespace NamedPipes
 
         private void btnConectarAdversario_Click(object sender, EventArgs e)
         {
-            ConectarNamedPipe(txtAdversarioIP.Text, txtNomeJogo.Text);
+            ConectarNamedPipe(txtAdversarioIP.Text, nomeJogo);
         }
 
         private void btnDefinirNomeJogador_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txtNomeJogador.Text))
+            if(string.IsNullOrEmpty(nomeJogador))
             {
                 MessageBox.Show("Defina o nome do jogador!");
                 return;
             }
 
-            meuJogo.NomeJogador=txtNomeJogador.Text;
-            lblNomeJogador.Text= "Jogador: " + txtNomeJogador.Text;
+            meuJogo.NomeJogador=nomeJogador;
+            
             
         }
     }
