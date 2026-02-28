@@ -45,6 +45,7 @@
             btnConectarAdversario = new Button();
             btnPermitirConexoesRemotas = new Button();
             label4 = new Label();
+            lblAdversarioConectado = new Label();
             SuspendLayout();
             // 
             // btn1
@@ -228,11 +229,22 @@
             label4.Size = new Size(0, 28);
             label4.TabIndex = 21;
             // 
+            // lblAdversarioConectado
+            // 
+            lblAdversarioConectado.AutoSize = true;
+            lblAdversarioConectado.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblAdversarioConectado.Location = new Point(71, 668);
+            lblAdversarioConectado.Name = "lblAdversarioConectado";
+            lblAdversarioConectado.Size = new Size(259, 28);
+            lblAdversarioConectado.TabIndex = 22;
+            lblAdversarioConectado.Text = "Adversário não conectado";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(621, 704);
+            Controls.Add(lblAdversarioConectado);
             Controls.Add(label4);
             Controls.Add(btnPermitirConexoesRemotas);
             Controls.Add(btnConectarAdversario);
@@ -278,6 +290,7 @@
         private Button btnConectarAdversario;
         private Button btnPermitirConexoesRemotas;
         private Label label4;
+        private Label lblAdversarioConectado;
     }
 }
 

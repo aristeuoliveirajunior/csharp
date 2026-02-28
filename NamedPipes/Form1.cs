@@ -31,6 +31,8 @@ namespace NamedPipes
         private string nomeJogo;
         private string nomeJogador;
 
+        private int semaforoConferePipe=1;
+
         public Form1()
         {
             InitializeComponent();
@@ -57,10 +59,11 @@ namespace NamedPipes
         private async Task<MeuJogo?> lerMensagemPipe()
         {
 
-            int t = 0;
+                int t = 0;
             
                 string message = "";
                 byte[] data = new byte[100];
+                semaforoConferePipe = 0;
 
                 do
                 {
@@ -71,16 +74,20 @@ namespace NamedPipes
                         else if (pipeCliente != null && pipeCliente.IsConnected)
                             t = await pipeCliente.ReadAsync(data, 0, data.Length, new CancellationTokenSource(2000).Token);
                         else
-                            return null;
+                        {
+                            semaforoConferePipe = 1; 
+                        }
+                            
                         if (t > 0)
-                        message += Encoding.UTF8.GetString(data, 0, t);
+                            message += Encoding.UTF8.GetString(data, 0, t);
                     }
-                    catch 
+                    catch (Exception ex)
                     {
-                         return null;
+                        semaforoConferePipe = 1;
+                        t = 0;
                     }
                    
-                } while (((pipe!=null && !pipe.IsMessageComplete)|| (pipeCliente != null && !pipeCliente.IsMessageComplete)) && t>0);
+                } while (((pipe!=null)|| (pipeCliente != null)) && t>0);
 
 
                 if(!string.IsNullOrEmpty(message))
@@ -91,10 +98,18 @@ namespace NamedPipes
                     {
                         meuJogo = jogoAdversario;
                     }
-                }
-                
+                    semaforoConferePipe = 1;
 
-            return meuJogo;
+                    return meuJogo;
+                }
+                else
+                {
+                    semaforoConferePipe = 1;
+                    return null;
+                }
+
+                
+            
                 
             }
 
@@ -115,7 +130,20 @@ namespace NamedPipes
             Task promise = pipe.WaitForConnectionAsync();
 
 
-            promise.ContinueWith(x => { MessageBox.Show("Adversário se conectou!"); });
+            promise.ContinueWith(x =>
+            {
+                if (lblAdversarioConectado.InvokeRequired)
+                {
+                    lblAdversarioConectado.Invoke(new Action(() =>
+                    {
+                        lblAdversarioConectado.Text = "Adversário conectado";
+                    }));
+                }
+                else
+                {
+                    lblAdversarioConectado.Text = "Adversário conectado";
+                }
+            });
 
             MessageBox.Show("Aguardando adversário solicitar conexão");
 
@@ -132,7 +160,7 @@ namespace NamedPipes
                 while (true)
                 {
                     funcaoThreadConferePipe();
-                    Thread.Sleep(3000);
+                    Thread.Sleep(300);
                 }
             });
 
@@ -146,26 +174,30 @@ namespace NamedPipes
             {
                 this.Invoke(new MethodInvoker(async () =>
                 {
-                    MeuJogo? jogoAdversario=await lerMensagemPipe();
-
-                    if (jogoAdversario != null)
+                    if(semaforoConferePipe>0)
                     {
+                        MeuJogo? jogoAdversario = await lerMensagemPipe();
 
-                        btn1.Text = getValorJogo(jogoAdversario,0).ToString();
-                        btn2.Text = getValorJogo(jogoAdversario, 1).ToString();
-                        btn3.Text = getValorJogo(jogoAdversario, 2).ToString();
+                        if (jogoAdversario != null)
+                        {
 
-                        btn4.Text = getValorJogo(jogoAdversario, 3).ToString();
-                        btn5.Text = getValorJogo(jogoAdversario, 4).ToString();
-                        btn6.Text = getValorJogo(jogoAdversario, 5).ToString();
+                            btn1.Text = getValorJogo(jogoAdversario, 0).ToString();
+                            btn2.Text = getValorJogo(jogoAdversario, 1).ToString();
+                            btn3.Text = getValorJogo(jogoAdversario, 2).ToString();
 
-                        btn7.Text = getValorJogo(jogoAdversario, 6).ToString();
-                        btn8.Text = getValorJogo(jogoAdversario, 7).ToString();
-                        btn9.Text = getValorJogo(jogoAdversario, 8).ToString();
+                            btn4.Text = getValorJogo(jogoAdversario, 3).ToString();
+                            btn5.Text = getValorJogo(jogoAdversario, 4).ToString();
+                            btn6.Text = getValorJogo(jogoAdversario, 5).ToString();
 
-                        this.meuJogo = jogoAdversario;
+                            btn7.Text = getValorJogo(jogoAdversario, 6).ToString();
+                            btn8.Text = getValorJogo(jogoAdversario, 7).ToString();
+                            btn9.Text = getValorJogo(jogoAdversario, 8).ToString();
 
+                            this.meuJogo = jogoAdversario;
+
+                        }
                     }
+                    
 
                 }));
 
@@ -186,7 +218,7 @@ namespace NamedPipes
 
                 pipeCliente.ReadMode = PipeTransmissionMode.Message;
 
-                MessageBox.Show("Conexão estabelecida com adversário.");
+                lblAdversarioConectado.Text = "Adversário conectado"; 
             }
             catch (Exception ex)
             {
@@ -234,8 +266,19 @@ namespace NamedPipes
 
         private bool setTipoSelecionadoPrimeiro(string tipo)
         {
-            
-            meuJogo.Tipo = tipo;
+
+            if (!string.IsNullOrEmpty(meuJogo.SimboloSelecionadoPrimeiro) && tipo == meuJogo.SimboloSelecionadoPrimeiro && this.nomeJogador!=meuJogo.QuemFezAUltimaJogada)
+            {
+                MessageBox.Show("Este símbolo já foi selecionado pelo seu adversário.");
+                return false;
+            }
+          
+
+           
+             meuJogo.SimboloSelecionadoPrimeiro = tipo;
+            meuJogo.QuemFezAUltimaJogada = this.nomeJogador;
+
+            enviarMensagemPipe();
 
             return true;
         }
@@ -376,8 +419,21 @@ namespace NamedPipes
            
         }
 
+        private bool validaSeAdversarioConectado()
+        {
+            if (pipe == null && pipeCliente == null)
+            {
+                MessageBox.Show("Necessário conectar com adversário");
+                return false;
+            }
+
+            return true;
+                
+        }
+
         private void btn1_Click(object sender, EventArgs e)
         {
+            if (!validaSeAdversarioConectado()) return;
 
             setValorPosicao(btn1, 0);
             bool result = validaVitoria();
@@ -391,6 +447,9 @@ namespace NamedPipes
 
         private void btn2_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn2, 1);
             bool result = validaVitoria();
 
@@ -403,6 +462,9 @@ namespace NamedPipes
 
         private void btn3_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn3, 2);
             bool result = validaVitoria();
 
@@ -415,6 +477,9 @@ namespace NamedPipes
 
         private void btn4_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn4, 3);
             bool result = validaVitoria();
 
@@ -427,6 +492,9 @@ namespace NamedPipes
 
         private void btn5_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn5, 4);
             bool result = validaVitoria();
 
@@ -439,6 +507,9 @@ namespace NamedPipes
 
         private void btn6_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn6, 5);
             bool result = validaVitoria();
 
@@ -451,6 +522,9 @@ namespace NamedPipes
 
         private void btn7_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn7, 6);
             bool result = validaVitoria();
 
@@ -463,6 +537,9 @@ namespace NamedPipes
 
         private void btn8_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn8, 7);
             bool result = validaVitoria();
 
@@ -475,6 +552,9 @@ namespace NamedPipes
 
         private void btn9_Click(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado()) return;
+
             setValorPosicao(btn9, 8);
             bool result = validaVitoria();
 
@@ -494,6 +574,14 @@ namespace NamedPipes
 
         private void chkCirculo_CheckedChanged(object sender, EventArgs e)
         {
+            if (!validaSeAdversarioConectado())
+            {
+                chkCirculo.Checked = false;
+                return;
+            }
+
+           
+
             if (!string.IsNullOrEmpty(tipo))
             {
                 MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
@@ -517,6 +605,10 @@ namespace NamedPipes
 
                 if (setTipoSelecionadoPrimeiro("O"))
                     tipo = "O";
+                else
+                {
+                    chkLetraX.Checked = false;
+                }
             }
 
 
@@ -524,6 +616,15 @@ namespace NamedPipes
 
         private void chkLetraX_CheckedChanged(object sender, EventArgs e)
         {
+
+            if (!validaSeAdversarioConectado())
+            {
+                chkLetraX.Checked = false;
+                return;
+            }
+
+          
+
             if (!string.IsNullOrEmpty(tipo))
             {
                 MessageBox.Show("Você já selecionou o seu símbolo, não é possível trocar");
@@ -548,6 +649,10 @@ namespace NamedPipes
             {
                 if (setTipoSelecionadoPrimeiro("X"))
                     tipo = "X";
+                else
+                {
+                    chkLetraX.Checked = false;
+                }
             }
 
         }
@@ -574,17 +679,6 @@ namespace NamedPipes
             ConectarNamedPipe(txtAdversarioIP.Text, nomeJogo);
         }
 
-        private void btnDefinirNomeJogador_Click(object sender, EventArgs e)
-        {
-            if(string.IsNullOrEmpty(nomeJogador))
-            {
-                MessageBox.Show("Defina o nome do jogador!");
-                return;
-            }
-
-            meuJogo.NomeJogador=nomeJogador;
-            
-            
-        }
+      
     }
 }

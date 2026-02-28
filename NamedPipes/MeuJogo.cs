@@ -8,26 +8,24 @@ namespace NamedPipes
 {
     public class MeuJogo
     {
-        public string Tipo { get; set; }
-
-        public bool JoqueiPorUltimo { get; set; }
-
+      
         public char[] posicoes { get; set; }
 
-        public string NomeJogador { get; set; }
 
         public string QuemFezAUltimaJogada { get; set; }
+
+        public string SimboloSelecionadoPrimeiro { get; set; }
 
 
 
         public MeuJogo()
         {
            
-            this.JoqueiPorUltimo = false;
             this.posicoes = new char[9];
-            this.NomeJogador = "";
 
-          
+            this.QuemFezAUltimaJogada = "";
+            this.SimboloSelecionadoPrimeiro = "";
+
             this.posicoes[0] = '\0';
             this.posicoes[1] = '\0';
             this.posicoes[2] = '\0';
