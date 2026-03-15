@@ -6,8 +6,6 @@ using System.Drawing;
 using System.IO.MemoryMappedFiles;
 using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -87,13 +85,16 @@ namespace NamedPipes
                         t = 0;
                     }
                    
-                } while (((pipe!=null)|| (pipeCliente != null)) && t>0);
+                } while (((pipe!=null && pipe.IsConnected && !pipe.IsMessageComplete) || (pipeCliente != null && pipeCliente.IsConnected && !pipeCliente.IsMessageComplete)) && t>0 );
 
 
                 if(!string.IsNullOrEmpty(message))
                 {
-                    MeuJogo? jogoAdversario = JsonSerializer.Deserialize<MeuJogo>(message);
 
+                    MeuJogo? jogoAdversario = null;
+               
+                    jogoAdversario = JsonSerializer.Deserialize<MeuJogo>(message);
+               
                     if (jogoAdversario != null)
                     {
                         meuJogo = jogoAdversario;
@@ -120,32 +121,33 @@ namespace NamedPipes
 
             try
             {
-                pipe = new NamedPipeServerStream(nomeJogo, PipeDirection.InOut, 1, PipeTransmissionMode.Message);
+                pipe = new NamedPipeServerStream(nomeJogo, PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous, 0, 0);
+
+
+                Task promise = pipe.WaitForConnectionAsync();
+
+
+                promise.ContinueWith(x =>
+                {
+                    if (lblAdversarioConectado.InvokeRequired)
+                    {
+                        lblAdversarioConectado.Invoke(new Action(() =>
+                        {
+                            lblAdversarioConectado.Text = "Adversário conectado";
+                        }));
+                    }
+                    else
+                    {
+                        lblAdversarioConectado.Text = "Adversário conectado";
+                    }
+                });
+
+                MessageBox.Show("Aguardando adversário solicitar conexão");
             }
             catch(Exception ex)
             {
-
+                MessageBox.Show("Não foi possível criar o pipe de conexão, verifique se vc já não clicou nesta opção antes.");
             }
-
-            Task promise = pipe.WaitForConnectionAsync();
-
-
-            promise.ContinueWith(x =>
-            {
-                if (lblAdversarioConectado.InvokeRequired)
-                {
-                    lblAdversarioConectado.Invoke(new Action(() =>
-                    {
-                        lblAdversarioConectado.Text = "Adversário conectado";
-                    }));
-                }
-                else
-                {
-                    lblAdversarioConectado.Text = "Adversário conectado";
-                }
-            });
-
-            MessageBox.Show("Aguardando adversário solicitar conexão");
 
 
         }
@@ -160,7 +162,7 @@ namespace NamedPipes
                 while (true)
                 {
                     funcaoThreadConferePipe();
-                    Thread.Sleep(300);
+                    Thread.Sleep(100);
                 }
             });
 

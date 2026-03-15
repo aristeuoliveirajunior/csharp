@@ -13,3 +13,5 @@
 /NamedPipes/obj/Debug/SharedMemory.exe
 /NamedPipes/bin/Debug/SharedMemory.pdb
 /NamedPipesy/bin/Debug/SharedMemory.exe
+/NamedPipes/bin/Release/net8.0-windows
+/NamedPipes/Properties/PublishProfiles
